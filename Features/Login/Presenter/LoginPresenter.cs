@@ -20,6 +20,7 @@ namespace WhatsappDesktop.Features.Login.Presenter
 
         private void ProcessarLogin(object sender, EventArgs e)
         {
+            //System.Diagnostics.Debug.WriteLine("2. Evento chegou no Presenter");
             // Pegamos os dados através da Interface
             string usuario = _view.Usuario;
             string senha = _view.Senha;
@@ -32,9 +33,7 @@ namespace WhatsappDesktop.Features.Login.Presenter
 
             if (_authService.ValidarUsuario(usuario, senha))
             {
-                ControleDeMensagens.Informar("Bem-vindo!");
-                // Aqui você chamaria a abertura do próximo Form
-                // _view.FecharView();
+                _view.FecharView();
             }
             else
             {

@@ -60,6 +60,7 @@ namespace WhatsappDesktop
 
         private void btnLogin_Click(object sender, EventArgs e)
         {
+            //System.Diagnostics.Debug.WriteLine("1. Clique detectado no Form");
             OnLoginClick?.Invoke(this, EventArgs.Empty);
         }
         private void AdicionarEventosDestaque()
@@ -78,8 +79,6 @@ namespace WhatsappDesktop
 
                     txt.Enter += (s, e) => {
                         txt.BackColor = Color.FromArgb(60, 63, 65); // Fundo levemente mais claro
-                                                                    // Opcional: Mudar a cor da borda exigiria desenhar manualmente, 
-                                                                    // então vamos focar na cor de fundo para o MVP.
                     };
 
                     txt.Leave += (s, e) => {

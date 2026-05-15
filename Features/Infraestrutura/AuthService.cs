@@ -1,16 +1,18 @@
 ﻿namespace WhatsappDesktop.Features.Infraestrutura
 {
-    public interface IAuthService
-    {
-        bool ValidarUsuario(string usuario, string senha);
-    }
-
     public class AuthService : IAuthService
     {
+        public bool IsAutenticado { get; private set; } = false;
         public bool ValidarUsuario(string usuario, string senha)
         {
             // MVP: Login fixo para teste
-            return usuario == "admin" && senha == "123";
+            if (usuario == "admin" && senha == "123")
+            {
+                IsAutenticado = true;
+                return true;
+            }
+            IsAutenticado = false;
+            return false;
         }
     }
 }

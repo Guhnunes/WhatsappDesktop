@@ -5,6 +5,8 @@ using WhatsappDesktop;
 using WhatsappDesktop.Features.Infraestrutura;
 using WhatsappDesktop.Features.Login.Presenter;
 using WhatsappDesktop.Features.Login.View;
+using WhatsappDesktop.Features.Main.Presenter;
+using WhatsappDesktop.Features.Main.View;
 
 static class Program
 {
@@ -19,19 +21,28 @@ static class Program
         //AUTENTICAÇÃO
         builder.RegisterType<AuthService>().As<IAuthService>().SingleInstance();
         //LOGIN
-        builder.RegisterType<LoginForm>().As<ILoginView>().AsSelf().InstancePerLifetimeScope();
-        //PRESENTER
-        builder.RegisterType<LoginPresenter>().As<ILoginPresenter>().AutoActivate();
+        builder.RegisterType<LoginForm>().As<ILoginView>().AsSelf().SingleInstance();
+        builder.RegisterType<LoginPresenter>().As<ILoginPresenter>().AsSelf().AutoActivate().SingleInstance();
+        //MAINFORM
+        builder.RegisterType<MainForm>().As<IMainView>().AsSelf().InstancePerLifetimeScope();
+        builder.RegisterType<MainPresenter>().As<IMainPresenter>().InstancePerLifetimeScope();
 
         var container = builder.Build();
 
         using (var scope = container.BeginLifetimeScope())
         {
-            // Resolve o formulário dentro do escopo
             var loginForm = scope.Resolve<LoginForm>();
-
-            // Garante que o Windows não tente "pintar" o form antes da hora
             Application.Run(loginForm);
+
+            var authService = scope.Resolve<IAuthService>();
+            if (authService.IsAutenticado)
+            {
+                var mainForm = scope.Resolve<MainForm>();
+                var mainPresenter = scope.Resolve<IMainPresenter>();
+
+                mainPresenter.Inicializar(); // Carrega o WhatsApp Web
+                Application.Run(mainForm);
+            }
         }
     }
 }
