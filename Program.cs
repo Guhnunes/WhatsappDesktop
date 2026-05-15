@@ -18,30 +18,34 @@ static class Program
 
         var builder = new ContainerBuilder();
 
-        //AUTENTICAÇÃO
+
         builder.RegisterType<AuthService>().As<IAuthService>().SingleInstance();
-        //LOGIN
-        builder.RegisterType<LoginForm>().As<ILoginView>().AsSelf().SingleInstance();
-        builder.RegisterType<LoginPresenter>().As<ILoginPresenter>().AsSelf().AutoActivate().SingleInstance();
-        //MAINFORM
-        builder.RegisterType<MainForm>().As<IMainView>().AsSelf().InstancePerLifetimeScope();
-        builder.RegisterType<MainPresenter>().As<IMainPresenter>().InstancePerLifetimeScope();
+
+        builder.RegisterType<LoginForm>().As<ILoginView>().AsSelf().InstancePerLifetimeScope();
+        builder.RegisterType<LoginPresenter>().As<ILoginPresenter>().AsSelf().AutoActivate();
+
+        builder.RegisterType<MainForm>().As<IMainView>().AsSelf().SingleInstance();
+        builder.RegisterType<MainPresenter>().As<IMainPresenter>().SingleInstance();
 
         var container = builder.Build();
 
         using (var scope = container.BeginLifetimeScope())
         {
-            var loginForm = scope.Resolve<LoginForm>();
-            Application.Run(loginForm);
+            var presenter = scope.Resolve<ILoginPresenter>();
 
-            var authService = scope.Resolve<IAuthService>();
-            if (authService.IsAutenticado)
+            var loginForm = (LoginForm)scope.Resolve<ILoginView>();
+
+            if (loginForm.ShowDialog() == DialogResult.OK)
             {
-                var mainForm = scope.Resolve<MainForm>();
-                var mainPresenter = scope.Resolve<IMainPresenter>();
+                var authService = scope.Resolve<IAuthService>();
+                if (authService.IsAutenticado)
+                {
+                    var mainPresenter = scope.Resolve<IMainPresenter>();
+                    var mainForm = (MainForm)scope.Resolve<IMainView>();
 
-                mainPresenter.Inicializar(); // Carrega o WhatsApp Web
-                Application.Run(mainForm);
+                    mainPresenter.Inicializar();
+                    Application.Run(mainForm);
+                }
             }
         }
     }

@@ -1,8 +1,12 @@
-﻿namespace WhatsappDesktop.Features.Infraestrutura
+﻿using System.Threading.Tasks;
+
+namespace WhatsappDesktop.Features.Infraestrutura
 {
     public interface IAuthService
     {
-        bool ValidarUsuario(string usuario, string senha);
+        Task<bool> ValidarUsuario(string usuario, string senha);
+
         bool IsAutenticado { get; }
+        string NomeUsuarioLogado { get; }
     }
 }

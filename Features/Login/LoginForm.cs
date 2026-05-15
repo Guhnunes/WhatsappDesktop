@@ -3,12 +3,14 @@ using System.Drawing;
 using System.Windows.Forms;
 using WhatsappDesktop.Features.Infraestrutura;
 using WhatsappDesktop.Features.Login.View;
+using WhatsappDesktop.Features.Main.View;
 
 namespace WhatsappDesktop
 {
     public partial class LoginForm : BaseForm, ILoginView
     {
         private readonly IAuthService _authService;
+        private Panel painelLoading;
 
         public string Usuario => txtUsuario.Text;
         public string Senha => txtSenha.Text;
@@ -33,6 +35,7 @@ namespace WhatsappDesktop
         }
         public void FecharView()
         {
+            this.DialogResult = DialogResult.OK;
             this.Close();
         }
 
@@ -58,9 +61,8 @@ namespace WhatsappDesktop
             this.Text = "Login - WhatsApp Desktop";
         }
 
-        private void btnLogin_Click(object sender, EventArgs e)
+        private async void btnLogin_Click(object sender, EventArgs e)
         {
-            //System.Diagnostics.Debug.WriteLine("1. Clique detectado no Form");
             OnLoginClick?.Invoke(this, EventArgs.Empty);
         }
         private void AdicionarEventosDestaque()
@@ -86,6 +88,42 @@ namespace WhatsappDesktop
                     };
                 }
             }
+        }
+        private void CriarPainelLoading()
+        {
+            painelLoading = new Panel
+            {
+                Size = this.ClientSize,
+                BackColor = Color.FromArgb(150, 32, 33, 36), // Semi-transparente
+                Location = new Point(0, 0),
+                Visible = false
+            };
+
+            Label lblStatus = new Label
+            {
+                Text = "Autenticando...",
+                ForeColor = Color.White,
+                AutoSize = false,
+                Size = new Size(200, 30),
+                TextAlign = ContentAlignment.MiddleCenter,
+                Font = new Font("Segoe UI", 12, FontStyle.Bold)
+            };
+
+            lblStatus.Location = new Point((painelLoading.Width - lblStatus.Width) / 2, (painelLoading.Height - lblStatus.Height) / 2);
+            painelLoading.Controls.Add(lblStatus);
+            this.Controls.Add(painelLoading);
+            painelLoading.BringToFront();
+        }
+
+        // Implementação da Interface
+        public void AlternarCarregamento(bool carregando)
+        {
+            if (painelLoading == null) CriarPainelLoading();
+
+            painelLoading.Visible = carregando;
+            btnLogin.Enabled = !carregando; // Desabilita o botão para evitar cliques duplos
+            txtUsuario.Enabled = !carregando;
+            txtSenha.Enabled = !carregando;
         }
     }
 }

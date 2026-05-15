@@ -18,26 +18,40 @@ namespace WhatsappDesktop.Features.Login.Presenter
             _view.OnLoginClick += ProcessarLogin;
         }
 
-        private void ProcessarLogin(object sender, EventArgs e)
+        private async void ProcessarLogin(object sender, EventArgs e)
         {
-            //System.Diagnostics.Debug.WriteLine("2. Evento chegou no Presenter");
-            // Pegamos os dados através da Interface
             string usuario = _view.Usuario;
             string senha = _view.Senha;
 
             if (string.IsNullOrWhiteSpace(usuario) || string.IsNullOrWhiteSpace(senha))
             {
-                ControleDeMensagens.Erro("Preencha todos os campos!", "Erro");
+                _view.MostrarMensagem("Preencha todos os campos!");
                 return;
             }
 
-            if (_authService.ValidarUsuario(usuario, senha))
+            // A lógica fica aqui no Presenter
+            try
             {
-                _view.FecharView();
+                // LIGA O LOADING
+                _view.AlternarCarregamento(true);
+
+                bool logado = await _authService.ValidarUsuario(_view.Usuario, _view.Senha);
+
+                if (logado)
+                {
+                    _view.FecharView();
+                }
+                else
+                {
+                    // DESLIGA SE DER ERRO PARA O USUÁRIO TENTAR DE NOVO
+                    _view.AlternarCarregamento(false);
+                    _view.MostrarMensagem("Usuário ou senha inválidos.");
+                }
             }
-            else
+            catch (Exception)
             {
-                ControleDeMensagens.Erro("Usuário ou senha inválidos.", "Erro");
+                _view.AlternarCarregamento(false);
+                _view.MostrarMensagem("Erro de conexão com o servidor.");
             }
         }
         public void Inicializar()

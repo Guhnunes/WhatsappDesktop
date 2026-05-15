@@ -9,9 +9,14 @@ namespace WhatsappDesktop.Features.Main.View
 {
     public partial class MainForm : BaseForm, IMainView
     {
-        public MainForm()
+        // 1. Declarar o serviço para que a classe toda possa usar
+        private readonly IAuthService _authService;
+
+        // 2. Mudar o construtor para receber o IAuthService (O Autofac vai amar isso)
+        public MainForm(IAuthService authService)
         {
             InitializeComponent();
+            _authService = authService; // Aqui guardamos o serviço injetado
             ConfigurarEstilo();
         }
 
@@ -34,14 +39,9 @@ namespace WhatsappDesktop.Features.Main.View
                 Directory.CreateDirectory(userDataFolder);
 
             var environment = await CoreWebView2Environment.CreateAsync(null, userDataFolder);
-
-            // IMPORTANTE: Assinar o evento ANTES de chamar o EnsureCoreWebView2Async
-            // ou logo após, mas antes de definir o Source.
             await webView.EnsureCoreWebView2Async(environment);
 
-            // ESTA LINHA ESTAVA FALTANDO: Liga o evento ao método
             webView.NavigationCompleted += WebView_NavigationCompleted;
-
             webView.Source = new Uri(url);
         }
 
@@ -49,60 +49,68 @@ namespace WhatsappDesktop.Features.Main.View
         {
             if (e.IsSuccess)
             {
-                string script = @"
-        (function() {
-            const prefixo = '*Gustavo*:\n\n';
-            let processando = false;
+                // 3. Pegamos o nome que veio da planilha através do serviço
+                string nomeParaOScript = _authService.NomeUsuarioLogado ?? "Usuário";
 
-            // Usamos 'capture: true' para chegar antes de qualquer script do WhatsApp
-            window.addEventListener('keydown', function(event) {
-                const box = document.querySelector('div[data-testid=""conversation-compose-box-input""]');
-                
-                if (box && (event.target === box || box.contains(event.target))) {
-                    if (event.key === 'Enter' && !event.shiftKey) {
+                // 4. Usamos o "$" antes da string para que o C# troque {nomeParaOScript} pelo valor real
+                // E dobramos as chaves {{ }} do JavaScript para o C# não se confundir
+                string script = $@"
+                (function() {{
+                    const prefixo = '*{nomeParaOScript}*:\n\n';
+                    let processando = false;
+
+                    window.addEventListener('keydown', function(event) {{
+                        const box = document.querySelector('div[data-testid=""conversation-compose-box-input""]');
                         
-                        // Se já estamos no meio da nossa automação, não faz nada
-                        if (processando) return;
-
-                        const textoOriginal = box.innerText.trim();
-
-                        // Só age se houver texto e o nome não estiver lá
-                        if (textoOriginal.length > 0 && !textoOriginal.startsWith('*Gustavo*:')) {
-                            
-                            processando = true;
-
-                            // 1. CANCELA TUDO: O WhatsApp não vai nem saber que você apertou Enter
-                            event.preventDefault();
-                            event.stopImmediatePropagation();
-
-                            // 2. Monta o texto final
-                            const textoFinal = prefixo + textoOriginal;
-
-                            // 3. Substitui o conteúdo via Inserção Atômica
-                            document.execCommand('selectAll', false, null);
-                            document.execCommand('insertText', false, textoFinal);
-
-                            // 4. DISPARA O ENVIO (O Enter 'de verdade' para o WhatsApp)
-                            // Damos um tempo um pouco maior (250ms) para o React atualizar o DOM
-                            setTimeout(() => {
-                                const enterEvent = new KeyboardEvent('keydown', {
-                                    bubbles: true, 
-                                    cancelable: true, 
-                                    key: 'Enter', 
-                                    code: 'Enter', 
-                                    keyCode: 13,
-                                    which: 13
-                                });
-                                box.dispatchEvent(enterEvent);
+                        if (box && (event.target === box || box.contains(event.target))) {{
+                            if (event.key === 'Enter' && !event.shiftKey) {{
                                 
-                                // Libera para a próxima mensagem após o envio ser concluído
-                                setTimeout(() => { processando = false; }, 1000);
-                            }, 250);
-                        }
-                    }
-                }
-            }, true); // O segredo está neste 'true' (Fase de Captura)
-        })();";
+                                if (processando) return;
+
+                                const textoOriginal = box.innerText.trim();
+
+                                // Verificamos se já não começa com o nome para não duplicar
+                                if (textoOriginal.length > 0 && !textoOriginal.startsWith('*{nomeParaOScript}*:')) {{
+                                    
+                                    processando = true;
+                                    event.preventDefault();
+                                    event.stopImmediatePropagation();
+
+                                    const textoFinal = prefixo + textoOriginal;
+
+                                    box.focus();
+                                    document.execCommand('selectAll', false, null);
+
+                                    setTimeout(() => {{
+                                        const dataTransfer = new DataTransfer();
+                                        dataTransfer.setData('text/plain', textoFinal);
+                                        const pasteEvent = new ClipboardEvent('paste', {{
+                                            clipboardData: dataTransfer,
+                                            bubbles: true,
+                                            cancelable: true
+                                        }});
+                                        box.dispatchEvent(pasteEvent);
+
+                                        setTimeout(() => {{
+                                            const enterEvent = new KeyboardEvent('keydown', {{
+                                                bubbles: true, 
+                                                cancelable: true, 
+                                                key: 'Enter', 
+                                                code: 'Enter', 
+                                                keyCode: 13,
+                                                which: 13
+                                            }});
+                                            box.dispatchEvent(enterEvent);
+                                            
+                                            setTimeout(() => {{ processando = false; }}, 1000);
+                                            
+                                        }}, 150); 
+                                    }}, 50); 
+                                }}
+                            }}
+                        }}
+                    }}, true);
+                }})();";
 
                 await webView.CoreWebView2.ExecuteScriptAsync(script);
             }
