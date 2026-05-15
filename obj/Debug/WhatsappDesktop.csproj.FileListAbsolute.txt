@@ -32,10 +32,10 @@ C:\Users\gusta\Desktop\WhatsappDesktop\bin\Debug\System.Numerics.Vectors.xml
 C:\Users\gusta\Desktop\WhatsappDesktop\bin\Debug\System.Runtime.CompilerServices.Unsafe.xml
 C:\Users\gusta\Desktop\WhatsappDesktop\bin\Debug\System.Threading.Tasks.Extensions.xml
 C:\Users\gusta\Desktop\WhatsappDesktop\obj\Debug\WhatsappDesktop.csproj.AssemblyReference.cache
+C:\Users\gusta\Desktop\WhatsappDesktop\obj\Debug\WhatsappDesktop.LoginForm.resources
 C:\Users\gusta\Desktop\WhatsappDesktop\obj\Debug\WhatsappDesktop.Properties.Resources.resources
 C:\Users\gusta\Desktop\WhatsappDesktop\obj\Debug\WhatsappDesktop.csproj.GenerateResource.cache
 C:\Users\gusta\Desktop\WhatsappDesktop\obj\Debug\WhatsappDesktop.csproj.CoreCompileInputs.cache
 C:\Users\gusta\Desktop\WhatsappDesktop\obj\Debug\Whatsapp.74300376.Up2Date
 C:\Users\gusta\Desktop\WhatsappDesktop\obj\Debug\WhatsappDesktop.exe
 C:\Users\gusta\Desktop\WhatsappDesktop\obj\Debug\WhatsappDesktop.pdb
-C:\Users\gusta\Desktop\WhatsappDesktop\obj\Debug\WhatsappDesktop.LoginForm.resources
