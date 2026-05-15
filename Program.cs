@@ -1,22 +1,37 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
+﻿using Autofac;
+using System;
 using System.Windows.Forms;
+using WhatsappDesktop;
+using WhatsappDesktop.Features.Infraestrutura;
+using WhatsappDesktop.Features.Login.Presenter;
+using WhatsappDesktop.Features.Login.View;
 
-namespace WhatsappDesktop
+static class Program
 {
-    internal static class Program
+    [STAThread]
+    static void Main()
     {
-        /// <summary>
-        /// Ponto de entrada principal para o aplicativo.
-        /// </summary>
-        [STAThread]
-        static void Main()
+        Application.EnableVisualStyles();
+        Application.SetCompatibleTextRenderingDefault(false);
+
+        var builder = new ContainerBuilder();
+
+        //AUTENTICAÇÃO
+        builder.RegisterType<AuthService>().As<IAuthService>().SingleInstance();
+        //LOGIN
+        builder.RegisterType<LoginForm>().As<ILoginView>().AsSelf().InstancePerLifetimeScope();
+        //PRESENTER
+        builder.RegisterType<LoginPresenter>().As<ILoginPresenter>().AutoActivate();
+
+        var container = builder.Build();
+
+        using (var scope = container.BeginLifetimeScope())
         {
-            Application.EnableVisualStyles();
-            Application.SetCompatibleTextRenderingDefault(false);
-            Application.Run(new Form1());
+            // Resolve o formulário dentro do escopo
+            var loginForm = scope.Resolve<LoginForm>();
+
+            // Garante que o Windows não tente "pintar" o form antes da hora
+            Application.Run(loginForm);
         }
     }
 }
