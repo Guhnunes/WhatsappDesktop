@@ -3,36 +3,12 @@
   "WorkspaceRootPath": "C:\\Users\\gusta\\Desktop\\WhatsappDesktop\\",
   "Documents": [
     {
-      "AbsoluteMoniker": "D:0:0:{618BF29A-DB42-440A-B090-60062C78E609}|WhatsappDesktop.csproj|c:\\users\\gusta\\desktop\\whatsappdesktop\\features\\infraestrutura\\authservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{618BF29A-DB42-440A-B090-60062C78E609}|WhatsappDesktop.csproj|solutionrelative:features\\infraestrutura\\authservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{618BF29A-DB42-440A-B090-60062C78E609}|WhatsappDesktop.csproj|C:\\Users\\gusta\\Desktop\\WhatsappDesktop\\features\\login\\presenter\\loginpresenter.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{618BF29A-DB42-440A-B090-60062C78E609}|WhatsappDesktop.csproj|solutionrelative:features\\login\\presenter\\loginpresenter.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{618BF29A-DB42-440A-B090-60062C78E609}|WhatsappDesktop.csproj|C:\\Users\\gusta\\Desktop\\WhatsappDesktop\\features\\login\\loginform.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{618BF29A-DB42-440A-B090-60062C78E609}|WhatsappDesktop.csproj|solutionrelative:features\\login\\loginform.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{618BF29A-DB42-440A-B090-60062C78E609}|WhatsappDesktop.csproj|C:\\Users\\gusta\\Desktop\\WhatsappDesktop\\features\\login\\view\\iloginview.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{618BF29A-DB42-440A-B090-60062C78E609}|WhatsappDesktop.csproj|solutionrelative:features\\login\\view\\iloginview.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{618BF29A-DB42-440A-B090-60062C78E609}|WhatsappDesktop.csproj|C:\\Users\\gusta\\Desktop\\WhatsappDesktop\\program.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{618BF29A-DB42-440A-B090-60062C78E609}|WhatsappDesktop.csproj|solutionrelative:program.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{618BF29A-DB42-440A-B090-60062C78E609}|WhatsappDesktop.csproj|C:\\Users\\gusta\\Desktop\\WhatsappDesktop\\features\\login\\loginform.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}|Form",
-      "RelativeMoniker": "D:0:0:{618BF29A-DB42-440A-B090-60062C78E609}|WhatsappDesktop.csproj|solutionrelative:features\\login\\loginform.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}|Form"
-    },
-    {
       "AbsoluteMoniker": "D:0:0:{618BF29A-DB42-440A-B090-60062C78E609}|WhatsappDesktop.csproj|C:\\Users\\gusta\\Desktop\\WhatsappDesktop\\features\\main\\mainform.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
       "RelativeMoniker": "D:0:0:{618BF29A-DB42-440A-B090-60062C78E609}|WhatsappDesktop.csproj|solutionrelative:features\\main\\mainform.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{618BF29A-DB42-440A-B090-60062C78E609}|WhatsappDesktop.csproj|C:\\Users\\gusta\\Desktop\\WhatsappDesktop\\features\\infraestrutura\\baseform.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{618BF29A-DB42-440A-B090-60062C78E609}|WhatsappDesktop.csproj|solutionrelative:features\\infraestrutura\\baseform.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+      "AbsoluteMoniker": "D:0:0:{618BF29A-DB42-440A-B090-60062C78E609}|WhatsappDesktop.csproj|c:\\users\\gusta\\desktop\\whatsappdesktop\\features\\login\\loginform.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{618BF29A-DB42-440A-B090-60062C78E609}|WhatsappDesktop.csproj|solutionrelative:features\\login\\loginform.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     }
   ],
   "DocumentGroupContainers": [
@@ -42,109 +18,32 @@
       "DocumentGroups": [
         {
           "DockedWidth": 200,
-          "SelectedChildIndex": 4,
+          "SelectedChildIndex": 1,
           "Children": [
             {
               "$type": "Document",
-              "DocumentIndex": 3,
-              "Title": "ILoginView.cs",
-              "DocumentMoniker": "C:\\Users\\gusta\\Desktop\\WhatsappDesktop\\Features\\Login\\View\\ILoginView.cs",
-              "RelativeDocumentMoniker": "Features\\Login\\View\\ILoginView.cs",
-              "ToolTip": "C:\\Users\\gusta\\Desktop\\WhatsappDesktop\\Features\\Login\\View\\ILoginView.cs",
-              "RelativeToolTip": "Features\\Login\\View\\ILoginView.cs",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAwAAAAAAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2026-05-15T17:28:12.072Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 5,
-              "Title": "LoginForm.cs [Design]",
-              "DocumentMoniker": "C:\\Users\\gusta\\Desktop\\WhatsappDesktop\\Features\\Login\\LoginForm.cs",
-              "RelativeDocumentMoniker": "Features\\Login\\LoginForm.cs",
-              "ToolTip": "C:\\Users\\gusta\\Desktop\\WhatsappDesktop\\Features\\Login\\LoginForm.cs [Design]",
-              "RelativeToolTip": "Features\\Login\\LoginForm.cs [Design]",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2026-05-15T17:14:06.224Z",
-              "EditorCaption": " [Design]"
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 7,
-              "Title": "BaseForm.cs",
-              "DocumentMoniker": "C:\\Users\\gusta\\Desktop\\WhatsappDesktop\\Features\\Infraestrutura\\BaseForm.cs",
-              "RelativeDocumentMoniker": "Features\\Infraestrutura\\BaseForm.cs",
-              "ToolTip": "C:\\Users\\gusta\\Desktop\\WhatsappDesktop\\Features\\Infraestrutura\\BaseForm.cs",
-              "RelativeToolTip": "Features\\Infraestrutura\\BaseForm.cs",
-              "ViewState": "AgIAAAAAAAAAAAAAAIBJwBIAAAARAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2026-05-15T13:49:10.426Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 6,
-              "Title": "MainForm.cs",
-              "DocumentMoniker": "C:\\Users\\gusta\\Desktop\\WhatsappDesktop\\Features\\Main\\MainForm.cs",
-              "RelativeDocumentMoniker": "Features\\Main\\MainForm.cs",
-              "ToolTip": "C:\\Users\\gusta\\Desktop\\WhatsappDesktop\\Features\\Main\\MainForm.cs",
-              "RelativeToolTip": "Features\\Main\\MainForm.cs",
-              "ViewState": "AgIAAAMAAAAAAAAAAAAAwHgAAAABAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2026-05-15T15:56:13.146Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 0,
-              "Title": "AuthService.cs",
-              "DocumentMoniker": "C:\\Users\\gusta\\Desktop\\WhatsappDesktop\\Features\\Infraestrutura\\AuthService.cs",
-              "RelativeDocumentMoniker": "Features\\Infraestrutura\\AuthService.cs",
-              "ToolTip": "C:\\Users\\gusta\\Desktop\\WhatsappDesktop\\Features\\Infraestrutura\\AuthService.cs",
-              "RelativeToolTip": "Features\\Infraestrutura\\AuthService.cs",
-              "ViewState": "AgIAADEAAAAAAAAAAADwvzsAAAA2AAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2026-05-15T12:13:46.33Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 4,
-              "Title": "Program.cs",
-              "DocumentMoniker": "C:\\Users\\gusta\\Desktop\\WhatsappDesktop\\Program.cs",
-              "RelativeDocumentMoniker": "Program.cs",
-              "ToolTip": "C:\\Users\\gusta\\Desktop\\WhatsappDesktop\\Program.cs",
-              "RelativeToolTip": "Program.cs",
-              "ViewState": "AgIAABsAAAAAAAAAAAAIwCQAAAAAAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2026-05-15T12:12:07.556Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
               "DocumentIndex": 1,
-              "Title": "LoginPresenter.cs",
-              "DocumentMoniker": "C:\\Users\\gusta\\Desktop\\WhatsappDesktop\\Features\\Login\\Presenter\\LoginPresenter.cs",
-              "RelativeDocumentMoniker": "Features\\Login\\Presenter\\LoginPresenter.cs",
-              "ToolTip": "C:\\Users\\gusta\\Desktop\\WhatsappDesktop\\Features\\Login\\Presenter\\LoginPresenter.cs",
-              "RelativeToolTip": "Features\\Login\\Presenter\\LoginPresenter.cs",
-              "ViewState": "AgIAABsAAAAAAAAAAAAYwDYAAAANAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2026-05-15T12:08:54.234Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 2,
               "Title": "LoginForm.cs",
               "DocumentMoniker": "C:\\Users\\gusta\\Desktop\\WhatsappDesktop\\Features\\Login\\LoginForm.cs",
               "RelativeDocumentMoniker": "Features\\Login\\LoginForm.cs",
               "ToolTip": "C:\\Users\\gusta\\Desktop\\WhatsappDesktop\\Features\\Login\\LoginForm.cs",
               "RelativeToolTip": "Features\\Login\\LoginForm.cs",
-              "ViewState": "AgIAAG0AAAAAAAAAAAAAwH4AAAAJAAAAAAAAAA==",
+              "ViewState": "AgIAAFMAAAAAAAAAAAAUwAkAAAAZAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2026-05-15T12:08:38.869Z",
+              "WhenOpened": "2026-05-15T20:14:22.462Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 0,
+              "Title": "MainForm.cs",
+              "DocumentMoniker": "C:\\Users\\gusta\\Desktop\\WhatsappDesktop\\Features\\Main\\MainForm.cs",
+              "RelativeDocumentMoniker": "Features\\Main\\MainForm.cs",
+              "ToolTip": "C:\\Users\\gusta\\Desktop\\WhatsappDesktop\\Features\\Main\\MainForm.cs",
+              "RelativeToolTip": "Features\\Main\\MainForm.cs",
+              "ViewState": "AgIAADcAAAAAAAAAAAAtwEoAAABfAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-05-15T15:56:13.146Z",
               "EditorCaption": ""
             }
           ]

@@ -9,14 +9,89 @@ namespace WhatsappDesktop.Features.Main.View
 {
     public partial class MainForm : BaseForm, IMainView
     {
-        // 1. Declarar o serviço para que a classe toda possa usar
+        // 1. Script Global usando EXATAMENTE a sua lógica que funcionou
+        private const string JS_WA_HELPER = @"
+        window.waHelper = {
+            escreverTexto: function(texto) {
+                const caixa = document.querySelector('div[contenteditable=""true""][role=""textbox""]');
+                if (caixa) {
+                    caixa.focus();
+                    document.execCommand('insertText', false, texto);
+                    caixa.dispatchEvent(new Event('input', { bubbles: true }));
+                }
+            },
+            
+            ativarAutoAssinatura: function(nomeAtendente) {
+                // Remove o evento antigo se a página recarregar para não duplicar
+                if (window._waHandler) {
+                    window.removeEventListener('keydown', window._waHandler, true);
+                }
+
+                const prefixo = '*' + nomeAtendente + '*:\n\n';
+                window._processandoWA = false;
+
+                window._waHandler = function(event) {
+                    const box = document.querySelector('div[data-testid=""conversation-compose-box-input""]');
+                    
+                    if (box && (event.target === box || box.contains(event.target))) {
+                        if (event.key === 'Enter' && !event.shiftKey) {
+                            
+                            if (window._processandoWA) return;
+
+                            const textoOriginal = box.innerText.trim();
+
+                            if (textoOriginal.length > 0 && !textoOriginal.startsWith('*' + nomeAtendente + '*:')) {
+                                
+                                window._processandoWA = true;
+                                event.preventDefault();
+                                event.stopImmediatePropagation();
+
+                                const textoFinal = prefixo + textoOriginal;
+
+                                box.focus();
+                                document.execCommand('selectAll', false, null);
+
+                                setTimeout(() => {
+                                    const dataTransfer = new DataTransfer();
+                                    dataTransfer.setData('text/plain', textoFinal);
+                                    const pasteEvent = new ClipboardEvent('paste', {
+                                        clipboardData: dataTransfer,
+                                        bubbles: true,
+                                        cancelable: true
+                                    });
+                                    box.dispatchEvent(pasteEvent);
+
+                                    setTimeout(() => {
+                                        const enterEvent = new KeyboardEvent('keydown', {
+                                            bubbles: true, 
+                                            cancelable: true, 
+                                            key: 'Enter', 
+                                            code: 'Enter', 
+                                            keyCode: 13,
+                                            which: 13
+                                        });
+                                        box.dispatchEvent(enterEvent);
+                                        
+                                        setTimeout(() => { window._processandoWA = false; }, 300);
+                                        
+                                    }, 150); 
+                                }, 50); 
+                            }
+                        }
+                    }
+                };
+
+                window.addEventListener('keydown', window._waHandler, true);
+            }
+        };
+        ";
+
         private readonly IAuthService _authService;
 
-        // 2. Mudar o construtor para receber o IAuthService (O Autofac vai amar isso)
         public MainForm(IAuthService authService)
         {
             InitializeComponent();
-            _authService = authService; // Aqui guardamos o serviço injetado
+            _authService = authService;
             ConfigurarEstilo();
         }
 
@@ -41,79 +116,30 @@ namespace WhatsappDesktop.Features.Main.View
             var environment = await CoreWebView2Environment.CreateAsync(null, userDataFolder);
             await webView.EnsureCoreWebView2Async(environment);
 
+            // Injeta a inteligência uma única vez
+            await webView.CoreWebView2.AddScriptToExecuteOnDocumentCreatedAsync(JS_WA_HELPER);
+
             webView.NavigationCompleted += WebView_NavigationCompleted;
             webView.Source = new Uri(url);
         }
 
         private async void WebView_NavigationCompleted(object sender, CoreWebView2NavigationCompletedEventArgs e)
         {
-            if (e.IsSuccess)
+            if (e.IsSuccess && webView.Source.ToString().Contains("web.whatsapp.com"))
             {
-                // 3. Pegamos o nome que veio da planilha através do serviço
-                string nomeParaOScript = _authService.NomeUsuarioLogado ?? "Usuário";
+                // Limpa possíveis aspas do nome e chama a ativação
+                string nomeParaOScript = (_authService.NomeUsuarioLogado ?? "Usuário").Replace("'", "");
 
-                // 4. Usamos o "$" antes da string para que o C# troque {nomeParaOScript} pelo valor real
-                // E dobramos as chaves {{ }} do JavaScript para o C# não se confundir
-                string script = $@"
-                (function() {{
-                    const prefixo = '*{nomeParaOScript}*:\n\n';
-                    let processando = false;
-
-                    window.addEventListener('keydown', function(event) {{
-                        const box = document.querySelector('div[data-testid=""conversation-compose-box-input""]');
-                        
-                        if (box && (event.target === box || box.contains(event.target))) {{
-                            if (event.key === 'Enter' && !event.shiftKey) {{
-                                
-                                if (processando) return;
-
-                                const textoOriginal = box.innerText.trim();
-
-                                // Verificamos se já não começa com o nome para não duplicar
-                                if (textoOriginal.length > 0 && !textoOriginal.startsWith('*{nomeParaOScript}*:')) {{
-                                    
-                                    processando = true;
-                                    event.preventDefault();
-                                    event.stopImmediatePropagation();
-
-                                    const textoFinal = prefixo + textoOriginal;
-
-                                    box.focus();
-                                    document.execCommand('selectAll', false, null);
-
-                                    setTimeout(() => {{
-                                        const dataTransfer = new DataTransfer();
-                                        dataTransfer.setData('text/plain', textoFinal);
-                                        const pasteEvent = new ClipboardEvent('paste', {{
-                                            clipboardData: dataTransfer,
-                                            bubbles: true,
-                                            cancelable: true
-                                        }});
-                                        box.dispatchEvent(pasteEvent);
-
-                                        setTimeout(() => {{
-                                            const enterEvent = new KeyboardEvent('keydown', {{
-                                                bubbles: true, 
-                                                cancelable: true, 
-                                                key: 'Enter', 
-                                                code: 'Enter', 
-                                                keyCode: 13,
-                                                which: 13
-                                            }});
-                                            box.dispatchEvent(enterEvent);
-                                            
-                                            setTimeout(() => {{ processando = false; }}, 1000);
-                                            
-                                        }}, 150); 
-                                    }}, 50); 
-                                }}
-                            }}
-                        }}
-                    }}, true);
-                }})();";
-
-                await webView.CoreWebView2.ExecuteScriptAsync(script);
+                // Chamada limpa
+                await webView.ExecuteScriptAsync($"window.waHelper.ativarAutoAssinatura('{nomeParaOScript}');");
             }
+        }
+
+        private async void btnEnviarAssinatura_Click(object sender, EventArgs e)
+        {
+            string atendente = _authService.NomeUsuarioLogado ?? "Usuário";
+            string msg = $"\n\n*Atendimento por*: _{atendente}_";
+            await webView.ExecuteScriptAsync($"window.waHelper.escreverTexto('{msg}');");
         }
 
         public void FecharView() => this.Close();
